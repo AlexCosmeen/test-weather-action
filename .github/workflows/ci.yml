@@ -1,20 +1,29 @@
-name: Weather
+name: Update Weather
 
 on:
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   weather:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get weather
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get weather and update README
         id: weather
         uses: AlexCosmeen/custom-action-weather@v1
+        env:
+          GH_TOKEN: ${{ github.token }}
         with:
           lat: '44.4361414'
           lon: '26.1027202'
           api_key: ${{ secrets.OPENWEATHER_API }}
+          update_readme: 'true'
 
       - name: Show weather
         run: |
