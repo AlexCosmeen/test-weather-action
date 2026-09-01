@@ -1,0 +1,22 @@
+name: Weather
+
+on:
+  workflow_dispatch:
+
+jobs:
+  weather:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get weather
+        id: weather
+        uses: AlexCosmeen/custom-action-weather@v1
+        with:
+          lat: '44.4361414'
+          lon: '26.1027202'
+          api_key: ${{ secrets.OPENWEATHER_API }}
+
+      - name: Show weather
+        run: |
+          echo "Temperature: ${{ steps.weather.outputs.temperature }}°C"
+          echo "Condition: ${{ steps.weather.outputs.condition }}"
